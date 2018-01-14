@@ -21,10 +21,10 @@ namespace ProofOfOwnership
 
         static void SignAsCraigWright()
         {
-            var bitcoinPrivateKey = new BitcoinSecret("KzgjNRhcJ3HRjxVdFhv14BrYUKrYBzdoxQyR2iJBHG9SNGGgbmtC");
+            var bitcoinSecret = new BitcoinSecret("KzgjNRhcJ3HRjxVdFhv14BrYUKrYBzdoxQyR2iJBHG9SNGGgbmtC");
 
             var message = "I am Craig Wright";
-            string signature = bitcoinPrivateKey.PrivateKey.SignMessage(message);
+            string signature = bitcoinSecret.PrivateKey.SignMessage(message);
             Console.WriteLine(signature); // IN5v9+3HGW1q71OqQ1boSZTm0/DCiMpI8E4JB1nD67TCbIVMRk/e3KrTT9GvOuu3NGN0w8R2lWOV2cxnBp+Of8c=
         }
         static void VerifySatoshi()

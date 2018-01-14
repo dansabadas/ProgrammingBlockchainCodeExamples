@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Linq;
-using System.Runtime.InteropServices;
 using NBitcoin;
-using NBitcoin.DataEncoders;
 
 // ReSharper disable All
 

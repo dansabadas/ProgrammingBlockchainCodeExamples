@@ -1,12 +1,8 @@
 ﻿// ReSharper disable All
 using System;
-using System.Threading;
 using NBitcoin;
 using NBitcoin.DataEncoders;
 using NBitcoin.OpenAsset;
-using NBitcoin.Protocol;
-using QBitNinja.Client;
-using QBitNinja.Client.Models;
 
 namespace _4._1OtherAssets
 {

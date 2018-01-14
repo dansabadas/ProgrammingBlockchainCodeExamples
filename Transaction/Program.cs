@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using NBitcoin;
 using QBitNinja.Client;
+using QBitNinja.Client.Models;
 
 namespace Transaction
 {
@@ -16,8 +17,7 @@ namespace Transaction
             // Parse transaction id to NBitcoin.uint256 so the client can eat it
             var transactionId = uint256.Parse("f13dc48fb035bbf0a6e989a26b3ecb57b84f85e0836e777d6edf60d87a4a2d94");
             // Query the transaction
-            QBitNinja.Client.Models.GetTransactionResponse transactionResponse = client.GetTransaction(transactionId).Result;
-
+            GetTransactionResponse transactionResponse = client.GetTransaction(transactionId).Result;
 
             NBitcoin.Transaction transaction = transactionResponse.Transaction;
 
@@ -148,31 +148,35 @@ namespace Transaction
 
             Console.WriteLine((spentAmount - receivedAmount).ToDecimal(MoneyUnit.BTC));
 
-            Console.WriteLine(spentAmount.ToDecimal(MoneyUnit.BTC)-receivedAmount.ToDecimal(MoneyUnit.BTC));
+            Console.WriteLine(spentAmount.ToDecimal(MoneyUnit.BTC) - receivedAmount.ToDecimal(MoneyUnit.BTC));
 
-            //var inputs = transaction.Inputs;
-            //foreach (TxIn input in inputs)
-            //{
-            //    uint256 previousTransactionId = input.PrevOut.Hash;
-            //    GetTransactionResponse previousTransactionResponse = client.GetTransaction(previousTransactionId).Result;
-
-            //    NBitcoin.Transaction previousTransaction = previousTransactionResponse.Transaction;
-
-            //    var previousTransactionOutputs = previousTransaction.Outputs;
-            //    foreach (TxOut previousTransactionOutput in previousTransactionOutputs)
-            //    {
-            //        Money amount = previousTransactionOutput.Value;
-
-            //        Console.WriteLine(amount.ToDecimal(MoneyUnit.BTC));
-            //        var paymentScript = previousTransactionOutput.ScriptPubKey;
-            //        Console.WriteLine(paymentScript);  // It's the ScriptPubKey
-            //        var address = paymentScript.GetDestinationAddress(Network.Main);
-            //        Console.WriteLine(address);
-            //        Console.WriteLine();
-            //    }
-            //}
+            //RecursivelyInspectForCoinbaseTransaction(client, transaction, inputs);
 
             Console.ReadLine();
+        }
+
+        private static void RecursivelyInspectForCoinbaseTransaction(QBitNinjaClient client, NBitcoin.Transaction transaction, TxInList inputs)
+        {
+            foreach (TxIn input in transaction.Inputs)
+            {
+                uint256 previousTransactionId = input.PrevOut.Hash;
+                GetTransactionResponse previousTransactionResponse = client.GetTransaction(previousTransactionId).Result;
+
+                NBitcoin.Transaction previousTransaction = previousTransactionResponse.Transaction;
+
+                var previousTransactionOutputs = previousTransaction.Outputs;
+                foreach (TxOut previousTransactionOutput in previousTransactionOutputs)
+                {
+                    Money amount = previousTransactionOutput.Value;
+
+                    Console.WriteLine(amount.ToDecimal(MoneyUnit.BTC));
+                    var paymentScript = previousTransactionOutput.ScriptPubKey;
+                    Console.WriteLine(paymentScript);  // It's the ScriptPubKey
+                    var address = paymentScript.GetDestinationAddress(Network.Main);
+                    Console.WriteLine(address);
+                    Console.WriteLine();
+                }
+            }
         }
     }
 }
