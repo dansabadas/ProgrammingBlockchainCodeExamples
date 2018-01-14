@@ -157,7 +157,6 @@ namespace _3._0OtherTypesOfOwnerships
 
             Console.WriteLine(fullySigned);
 
-
             //Let's look at the case that CombineSignatures() is required:
             TransactionBuilder builderNew = new TransactionBuilder();
             TransactionBuilder builderForAlice = new TransactionBuilder();
@@ -222,7 +221,6 @@ namespace _3._0OtherTypesOfOwnerships
 
             Console.WriteLine($"scriptPubKeyByP2sh: {scriptPubKeyByP2sh}");
 
-		
             //Since it is a hash, you can easily convert it to a base58 string BitcoinScriptAddress.
             //Key bobPrivateKey = new Key();
             //Key alicePrivateKey = new Key();
@@ -236,7 +234,7 @@ namespace _3._0OtherTypesOfOwnerships
             Console.WriteLine($"scriptPubKeyByP2sh: {scriptPubKeyByP2sh}");
             Console.WriteLine(redeemScriptPubKey.Hash.GetAddress(Network.Main));
             Console.WriteLine($"redeemScript.Hash: {redeemScriptPubKey.Hash}");
-            
+
 
            //Imagine that the multi-sig P2SH receives a coin in a transaction called received.
            Script redeemScriptPubKeyForP2shPayment =
@@ -288,7 +286,6 @@ namespace _3._0OtherTypesOfOwnerships
                     .CombineSignatures(aliceSignedForP2shPayment, bobSignedForP2shPayment);
 
             Console.WriteLine($"fullySignedForP2shPayment: {fullySignedForP2shPayment}");
-
 
 		
 		
